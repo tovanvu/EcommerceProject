@@ -1,0 +1,39 @@
+version: '2.1'
+services:
+  edu-oracle-db:
+    container_name: edu-oracle-db
+    image: "rsperafico/database-oracle:12.1.0.2-ee"
+    restart: "unless-stopped"
+    ports:
+      - 1521:1521
+      - 5500:5500
+#    volumes:
+#      - ./OracleDB:/opt/oracle/oradata
+#      - ./dump:/opt/oracle/dump
+    environment:
+      ORACLE_SID: xe
+      ORACLE_PDB: ecommerce
+      ORACLE_PWD: edu
+      ORACLE_CHARACTERSET: utf8mb4
+#      # schema of the dump you want to import
+#      - "SOURCE_SCHEMA=change-or-delete-me"
+#      # tablespace of the dump you want to import
+#      - "SOURCE_TABLESPACE=change-or-delete-me"
+#      # you may want to exclude `GRANT`: `EXCLUDE=USER,GRANT', if your dump contains them
+#      # if you dont have anything to exclude, remove the variable
+#      - "EXCLUDE=user"
+  edu-redis:
+    container_name: edu-redis
+    image: 'redis:latest'
+    ports:
+      - "6379:6379"
+#  phpmyadmin:
+#    depends_on:
+#      - edu--oracle-db
+#    image: "phpmyadmin/phpmyadmin:latest"
+#    ports:
+#      - '8000:80'
+#    restart: always
+#    environment:
+#      PMA_HOST: edu--oracle-db
+#      ORACLE_PWD: oracle
